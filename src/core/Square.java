@@ -63,10 +63,22 @@ public class Square {
         return y;
     }
 
+    public boolean isMine() {
+        return isMine;
+    }
+
+    public boolean isRevealed() {
+        return isRevealed;
+    }
+
+    public boolean isMarked() {
+        return isMarked;
+    }
+
     /**
      * Call this function for this case to became a mine
      */
-    public void makeItMine() {
+    public void setMine() {
         if (!isMine) {
             isMine = true;
             ArrayList<Square> adjacents = board.getNeighbors(this);
@@ -74,6 +86,20 @@ public class Square {
                 adj.addMineAround();
             }
         }
+    }
+
+    /**
+     * Call this function to reveal a square
+     */
+    public void setRevealed() {
+        isRevealed = true;
+    }
+
+    /**
+     * Call this function to mark or unmark a square
+     */
+    public void setMarked() {
+        isMarked = !isMarked;
     }
 
     /**

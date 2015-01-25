@@ -36,7 +36,7 @@ public class Board {
      * Initialize board with mines.
      */
     private void initMines() {
-        // TODO init mines on first move to prevent loosing on first click
+        // TODO init mines on first move to prevent losing
 
         ArrayList<Square> possibilities = new ArrayList<Square>();
         for (Square square : board) {
@@ -46,7 +46,7 @@ public class Board {
         for (int i = 0; i < NB_MINES; i++) {
             int index = getRandomNumber(0, possibilities.size() - 1); // We get a random in the possibilities
             Square mine = board.get(index); // We get the corresponding square
-            mine.makeItMine(); // We set it as a mine
+            mine.setMine(); // We set it as a mine
             possibilities.remove(index); // Then this square is out of the possibilities for next mine assignment
         }
     }
@@ -61,6 +61,10 @@ public class Board {
         return (x >= 0 && y >= 0 && x < WIDTH && y < WIDTH);
     }
 
+    public int getIndex(int x, int y) {
+        return  y * WIDTH + x;
+    }
+
     /**
      * Allow to access a square at the given coordinates
      * @param x x coordinate
@@ -69,7 +73,7 @@ public class Board {
      */
     public Square getSquare(int x, int y) {
         if (isInBoard(x, y)) {
-            int index = y * WIDTH + x;
+            int index = getIndex(x, y);
             return board.get(index);
         } else {
             return null;
@@ -97,6 +101,31 @@ public class Board {
         }
 
         return neighbors;
+    }
+
+    /**
+     * Allow to play at the [x,y] coordinates
+     * @param x x coord
+     * @param y y coord
+     * @return true if the move is applied, false otherwise
+     */
+    public boolean play(int x, int y) {
+        Square square = getSquare(x, y);
+        if (square != null) {
+            if (!square.isMarked()) { // Marked square are protected
+                square.setRevealed();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void mark(int x, int y) {
+        Square square = getSquare(x, y);
+        if (square != null) {
+            square.setMarked();
+        }
     }
 
     /**
