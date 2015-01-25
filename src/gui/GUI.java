@@ -2,6 +2,7 @@ package gui;
 
 import core.Board;
 import core.Square;
+import sun.jvm.hotspot.asm.sparc.SPARCArgument;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI extends JFrame {
-    private static final int SQUARE_SIZE = 30;
+    public static final int SQUARE_SIZE = 30;
     private static final int MENU_SIZE = 42;
 
     private int height;
@@ -114,6 +115,7 @@ public class GUI extends JFrame {
                 jSquares[x][y] = new JButton();
                 jSquares[x][y].setEnabled(true);
                 jSquares[x][y].setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
+                jSquares[x][y].setIcon(Sprite.unrevealed);
 
                 jSquares[x][y].addMouseListener(new Play(this, x, y));
 
@@ -130,16 +132,17 @@ public class GUI extends JFrame {
                 Square square = board.getSquare(x, y);
 
                 if (square.isMine() && (square.isRevealed() || board.hasLost())) {
-                    jSquares[x][y].setText("*");
+                    jSquares[x][y].setIcon(Sprite.getMine(square.isRevealed()));
                 }
                 else if (square.isMarked()) {
-                    jSquares[x][y].setText("P");
+                    jSquares[x][y].setIcon(Sprite.getFlag());
                 }
                 else if (square.isRevealed()) {
-                    if (square.getNbMinesAround() > 0) jSquares[x][y].setText(String.valueOf(square.getNbMinesAround()));
+                    if (square.getNbMinesAround() > 0) jSquares[x][y].setIcon(Sprite.getNumber(square.getNbMinesAround()));
+                    else jSquares[x][y].setIcon(Sprite.revealed);
                 }
                 else {
-                    jSquares[x][y].setText("");
+                    jSquares[x][y].setIcon(Sprite.unrevealed);
                 }
             }
         }
