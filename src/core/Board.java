@@ -36,7 +36,7 @@ public class Board {
      * Initialize board with mines.
      */
     private void initMines() {
-        // TODO init mines on first click to prevent loosing on first click
+        // TODO init mines on first move to prevent loosing on first click
 
         ArrayList<Square> possibilities = new ArrayList<Square>();
         for (Square square : board) {
