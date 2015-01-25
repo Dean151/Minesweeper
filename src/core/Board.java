@@ -111,9 +111,25 @@ public class Board {
      */
     public boolean play(int x, int y) {
         Square square = getSquare(x, y);
+        return play(square);
+    }
+
+    /**
+     * Allow to play at the given square
+     * @param square square where we want to play
+     * @return true if the move is applied, false otherwise
+     */
+    public boolean play(Square square) {
         if (square != null) {
-            if (!square.isMarked()) { // Marked square are protected
+            if (!square.isRevealed() && !square.isMarked()) { // Marked square are protected
                 square.setRevealed();
+                if (square.getNbMinesAround() == 0) {
+                    // If it is 0, we expend
+                    ArrayList<Square> neighbors = getNeighbors(square);
+                    for (Square neighbor : neighbors) {
+                        play(neighbor);
+                    }
+                }
                 return true;
             }
         }

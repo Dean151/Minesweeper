@@ -63,6 +63,10 @@ public class Square {
         return y;
     }
 
+    public int getNbMinesAround() {
+        return nbMinesAround;
+    }
+
     /**
      * isMine getter
      * @return isMine boolean
