@@ -22,17 +22,16 @@ public class Play implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
-            if (board.play(x, y)) {
-                gui.updateBoard();
-            }
+            board.play(x, y);
         } else if (SwingUtilities.isRightMouseButton(e)) {
             board.mark(x, y);
-            gui.updateBoard();
         }
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {
+        gui.updateBoard();
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {}
