@@ -115,7 +115,7 @@ public class GUI extends JFrame {
                 jSquares[x][y].setEnabled(true);
                 jSquares[x][y].setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
 
-                jSquares[x][y].addActionListener(new Play(this, x, y));
+                jSquares[x][y].addMouseListener(new Play(this, jSquares[x][y], x, y));
 
                 jBoard.add(jSquares[x][y], y, x);
             }
@@ -137,6 +137,9 @@ public class GUI extends JFrame {
                 }
                 else if (square.isRevealed()) {
                     if (square.getNbMinesAround() > 0) jSquares[x][y].setText(String.valueOf(square.getNbMinesAround()));
+                }
+                else {
+                    jSquares[x][y].setText("");
                 }
             }
         }
