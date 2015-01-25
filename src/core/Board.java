@@ -11,6 +11,8 @@ public class Board {
     private final int WIDTH;
     private final int NB_MINES;
 
+    private boolean mineInitialised = false; // Marker to know if mines have been initialised yet
+
     private ArrayList<Square> board;
 
     public Board(int width, int height, int mines) {
@@ -28,19 +30,17 @@ public class Board {
                 this.board.add(new Square(this, x, y));
             }
         }
-
-        initMines();
     }
 
     /**
      * Initialize board with mines.
      */
-    private void initMines() {
-        // TODO init mines on first move to prevent losing
-
+    private void initMines(int x, int y) {
         ArrayList<Square> possibilities = new ArrayList<Square>();
         for (Square square : board) {
-            possibilities.add(square); // Every square is a potential mine
+            if (square.getX() != x || square.getY() != y) { // Prevent placing a mine at [x,y]
+                possibilities.add(square); // Every square is a potential mine
+            }
         }
 
         for (int i = 0; i < NB_MINES; i++) {
@@ -49,6 +49,8 @@ public class Board {
             mine.setMine(); // We set it as a mine
             possibilities.remove(index); // Then this square is out of the possibilities for next mine assignment
         }
+
+        mineInitialised = true;
     }
 
     /**
@@ -121,6 +123,10 @@ public class Board {
      */
     public boolean play(Square square) {
         if (square != null) {
+            if (!mineInitialised) {
+                initMines(square.getX(), square.getY());
+            }
+
             if (!square.isRevealed() && !square.isMarked()) { // Marked square are protected
                 square.setRevealed();
                 if (square.getNbMinesAround() == 0) {
