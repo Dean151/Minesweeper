@@ -32,7 +32,12 @@ public class Board {
         initMines();
     }
 
+    /**
+     * Initialize board with mines.
+     */
     private void initMines() {
+        // TODO init mines on first click to prevent loosing on first click
+
         ArrayList<Square> possibilities = new ArrayList<Square>();
         for (Square square : board) {
             possibilities.add(square); // Every square is a potential mine
@@ -46,10 +51,22 @@ public class Board {
         }
     }
 
+    /**
+     * Allow to check if coordinates are inside the board
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return true if coordinates are inside the board, false otherwise
+     */
     public boolean isInBoard(int x, int y) {
         return (x >= 0 && y >= 0 && x < WIDTH && y < WIDTH);
     }
 
+    /**
+     * Allow to access a square at the given coordinates
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return the square at the following coordinates, null if coordinates are out of the board
+     */
     public Square getSquare(int x, int y) {
         if (isInBoard(x, y)) {
             int index = y * WIDTH + x;
@@ -59,8 +76,13 @@ public class Board {
         }
     }
 
-    public ArrayList<Square> getAdjacents(Square square) {
-        ArrayList<Square> adjacents = new ArrayList<Square>();
+    /**
+     * Allow to get all neighbors of a given square
+     * @param square the square that is the center of the neighbors we want
+     * @return List of neighbor squares
+     */
+    public ArrayList<Square> getNeighbors(Square square) {
+        ArrayList<Square> neighbors = new ArrayList<Square>();
 
         int x = square.getX();
         int y = square.getY();
@@ -71,10 +93,10 @@ public class Board {
 
         for (int i = 0; i < dx.length; i++) {
             Square adj = getSquare(x+dx[i], y+dy[i]);
-            if (adj != null) adjacents.add(adj);
+            if (adj != null) neighbors.add(adj);
         }
 
-        return adjacents;
+        return neighbors;
     }
 
     /**

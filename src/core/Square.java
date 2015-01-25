@@ -47,22 +47,38 @@ public class Square {
         this.nbMinesAround = 0;
     }
 
+    /**
+     * X coordinate getter
+     * @return x coordinate
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Y coordinate getter
+     * @return y coordinate
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Call this function for this case to became a mine
+     */
     public void makeItMine() {
-        isMine = true;
-        ArrayList<Square> adjacents = board.getAdjacents(this);
-        for (Square adj : adjacents) {
-            adj.addMineAround();
+        if (!isMine) {
+            isMine = true;
+            ArrayList<Square> adjacents = board.getNeighbors(this);
+            for (Square adj : adjacents) {
+                adj.addMineAround();
+            }
         }
     }
 
+    /**
+     * Allow to increment the number of mines around. Called during mine assignment.
+     */
     public void addMineAround() {
         nbMinesAround++;
     }
