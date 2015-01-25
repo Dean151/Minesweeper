@@ -33,6 +33,22 @@ public class Board {
     }
 
     /**
+     * Height getter
+     * @return height of board
+     */
+    public int getHeight() {
+        return HEIGHT;
+    }
+
+    /**
+     * Width getter
+     * @return width of board
+     */
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    /**
      * Initialize board with mines.
      */
     private void initMines(int x, int y) {
