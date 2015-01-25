@@ -1,12 +1,13 @@
 package gui;
 
 import core.Board;
+import core.Square;
+import javafx.scene.layout.Border;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
 
 /**
  * Created by thomas on 25/01/15.
@@ -17,6 +18,9 @@ public class GUI extends JFrame {
 
     private int height;
     private int width;
+
+    private int boardHeight;
+    private int boardWidth;
 
     private Board board;
 
@@ -33,9 +37,11 @@ public class GUI extends JFrame {
 
     public GUI(Board board) {
         this.board = board;
+        this.boardHeight = board.getHeight();
+        this.boardWidth = board.getWidth();
 
-        this.height = SQUARE_SIZE * board.getHeight() + MENU_SIZE;
-        this.width = SQUARE_SIZE * board.getWidth();
+        this.height = SQUARE_SIZE * this.boardHeight + MENU_SIZE;
+        this.width = SQUARE_SIZE * this.boardWidth;
 
         initMenus();
 
@@ -44,6 +50,14 @@ public class GUI extends JFrame {
         initBoard();
 
         pack();
+    }
+
+    /**
+     * Board getter
+     * @return board
+     */
+    public Board getBoard() {
+        return board;
     }
 
     /**
@@ -94,9 +108,6 @@ public class GUI extends JFrame {
     }
 
     private void initBoard() {
-        int boardHeight = board.getHeight();
-        int boardWidth = board.getWidth();
-
         // Initializing board
         jBoard = new JPanel(new GridLayout(boardHeight, boardWidth));
         jSquares = new JButton[boardWidth][boardHeight];
@@ -108,12 +119,30 @@ public class GUI extends JFrame {
                 jSquares[x][y].setEnabled(true);
                 jSquares[x][y].setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
 
-                jSquares[x][y].addActionListener(new Play(board, x, y));
+                jSquares[x][y].addActionListener(new Play(this, x, y));
 
                 jBoard.add(jSquares[x][y], y, x);
             }
         }
 
         getContentPane().add(jBoard, BorderLayout.CENTER);
+    }
+
+    public void updateBoard() {
+        for (int y = 0; y < boardHeight; y++) {
+            for (int x = 0; x < boardWidth; x++) {
+                Square square = board.getSquare(x, y);
+
+                if (square.isMine() && (square.isRevealed() || board.hasLost())) {
+                    jSquares[x][y].setText("*");
+                }
+                else if (square.isMarked()) {
+                    jSquares[x][y].setText("P");
+                }
+                else if (square.isRevealed()) {
+                    if (square.getNbMinesAround() > 0) jSquares[x][y].setText(String.valueOf(square.getNbMinesAround()));
+                }
+            }
+        }
     }
 }

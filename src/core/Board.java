@@ -12,6 +12,7 @@ public class Board {
     private final int NB_MINES;
 
     private boolean mineInitialised = false; // Marker to know if mines have been initialised yet
+    private boolean hasLost = false;
 
     private ArrayList<Square> board;
 
@@ -79,6 +80,10 @@ public class Board {
         return (x >= 0 && y >= 0 && x < WIDTH && y < WIDTH);
     }
 
+    public boolean hasLost() {
+        return hasLost;
+    }
+
     public int getIndex(int x, int y) {
         return  y * WIDTH + x;
     }
@@ -143,9 +148,12 @@ public class Board {
                 initMines(square.getX(), square.getY());
             }
 
-            if (!square.isRevealed() && !square.isMarked()) { // Marked square are protected
+            if (!square.isRevealed() && !square.isMarked() && !hasLost) { // Marked square are protected
                 square.setRevealed();
-                if (square.getNbMinesAround() == 0) {
+                if (square.isMine()) {
+                    hasLost = true;
+                }
+                else if (square.getNbMinesAround() == 0) {
                     // If it is 0, we expend
                     ArrayList<Square> neighbors = getNeighbors(square);
                     for (Square neighbor : neighbors) {

@@ -9,12 +9,14 @@ import java.awt.event.ActionListener;
  * Created by thomas on 25/01/15.
  */
 public class Play implements ActionListener {
+    private final GUI gui;
     private final Board board;
     private final int x;
     private final int y;
 
-    public Play(Board board, int x, int y) {
-        this.board = board;
+    public Play(GUI gui, int x, int y) {
+        this.gui = gui;
+        this.board = gui.getBoard();
         this.x = x;
         this.y = y;
     }
@@ -22,5 +24,8 @@ public class Play implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO play move
+        if (board.play(x, y)) {
+            gui.updateBoard();
+        }
     }
 }
