@@ -9,13 +9,11 @@ import java.awt.event.MouseListener;
 public class Play implements MouseListener {
     private final GUI gui;
     private final Board board;
-    private final JButton button;
     private final int x;
     private final int y;
 
-    public Play(GUI gui, JButton button, int x, int y) {
+    public Play(GUI gui, int x, int y) {
         this.gui = gui;
-        this.button = button;
         this.board = gui.getBoard();
         this.x = x;
         this.y = y;

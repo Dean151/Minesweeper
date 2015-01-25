@@ -115,7 +115,7 @@ public class GUI extends JFrame {
                 jSquares[x][y].setEnabled(true);
                 jSquares[x][y].setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
 
-                jSquares[x][y].addMouseListener(new Play(this, jSquares[x][y], x, y));
+                jSquares[x][y].addMouseListener(new Play(this, x, y));
 
                 jBoard.add(jSquares[x][y], y, x);
             }
