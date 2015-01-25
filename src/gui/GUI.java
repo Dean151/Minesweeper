@@ -2,16 +2,12 @@ package gui;
 
 import core.Board;
 import core.Square;
-import javafx.scene.layout.Border;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Created by thomas on 25/01/15.
- */
 public class GUI extends JFrame {
     private static final int SQUARE_SIZE = 30;
     private static final int MENU_SIZE = 42;

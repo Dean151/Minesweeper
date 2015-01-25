@@ -2,9 +2,6 @@ package core;
 
 import java.util.ArrayList;
 
-/**
- * Created by thomas on 25/01/15.
- */
 public class Square {
 
     /**

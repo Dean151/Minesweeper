@@ -3,9 +3,6 @@ package core;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by thomas on 25/01/15.
- */
 public class Board {
     private final int HEIGHT;
     private final int WIDTH;

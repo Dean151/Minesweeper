@@ -5,9 +5,6 @@ import core.Board;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Created by thomas on 25/01/15.
- */
 public class Play implements ActionListener {
     private final GUI gui;
     private final Board board;
