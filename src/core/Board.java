@@ -121,6 +121,11 @@ public class Board {
         return false;
     }
 
+    /**
+     * Allow to mark at the [x,y] coordinates
+     * @param x x coord
+     * @param y y coord
+     */
     public void mark(int x, int y) {
         Square square = getSquare(x, y);
         if (square != null) {

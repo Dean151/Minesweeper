@@ -63,14 +63,26 @@ public class Square {
         return y;
     }
 
+    /**
+     * isMine getter
+     * @return isMine boolean
+     */
     public boolean isMine() {
         return isMine;
     }
 
+    /**
+     * isRevealed getter
+     * @return isRevealed boolean
+     */
     public boolean isRevealed() {
         return isRevealed;
     }
 
+    /**
+     * isMarked getter
+     * @return isMarked boolean
+     */
     public boolean isMarked() {
         return isMarked;
     }
