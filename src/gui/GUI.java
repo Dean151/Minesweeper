@@ -179,11 +179,12 @@ public class GUI extends JFrame {
             for (int x = 0; x < boardWidth; x++) {
                 Square square = board.getSquare(x, y);
 
-                if (square.isMine() && (square.isRevealed() || board.hasLost())) {
-                    jSquares[x][y].setIcon(Sprite.getMine(square.isRevealed()));
+                if (square.isMarked()) {
+                    if (!board.hasLost()) jSquares[x][y].setIcon(Sprite.getFlag());
+                    else jSquares[x][y].setIcon(Sprite.getFlag(square.isMine()));
                 }
-                else if (square.isMarked()) {
-                    jSquares[x][y].setIcon(Sprite.getFlag());
+                else if (square.isMine() && (square.isRevealed() || board.hasLost())) {
+                    jSquares[x][y].setIcon(Sprite.getMine(square.isRevealed()));
                 }
                 else if (square.isRevealed()) {
                     if (square.getNbMinesAround() > 0) jSquares[x][y].setIcon(Sprite.getNumber(square.getNbMinesAround()));

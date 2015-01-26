@@ -11,7 +11,9 @@ public class Sprite {
 
     public static final ImageIcon unrevealed = new ImageIcon(new ImageIcon("sprites/unrevealed.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
     public static final ImageIcon revealed = new ImageIcon(new ImageIcon("sprites/revealed.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
+
     public static final ImageIcon exploded = new ImageIcon(new ImageIcon("sprites/exploded.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
+    public static final ImageIcon validated = new ImageIcon(new ImageIcon("sprites/validated.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
 
     private static final ImageIcon mine = new ImageIcon(new ImageIcon("sprites/mine.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
     private static final ImageIcon flag = new ImageIcon(new ImageIcon("sprites/flag.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
@@ -32,6 +34,11 @@ public class Sprite {
 
     public static ImageIcon getFlag() {
         return merge(new ArrayList<ImageIcon>(Arrays.asList(unrevealed, flag)));
+    }
+
+    public static ImageIcon getFlag(boolean wasMine) {
+        if (wasMine) return merge(new ArrayList<ImageIcon>(Arrays.asList(validated, flag)));
+        else return merge(new ArrayList<ImageIcon>(Arrays.asList(exploded, flag)));
     }
 
     public static ImageIcon getNumber(int number) {
