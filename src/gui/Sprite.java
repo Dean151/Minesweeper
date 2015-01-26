@@ -27,9 +27,13 @@ public class Sprite {
     private static final ImageIcon nb7 = new ImageIcon(new ImageIcon("sprites/7.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
     private static final ImageIcon nb8 = new ImageIcon(new ImageIcon("sprites/8.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
 
+    public static ImageIcon getMine() {
+        return merge(new ArrayList<ImageIcon>(Arrays.asList(unrevealed, mine)));
+    }
+
     public static ImageIcon getMine(boolean revealed) {
         if (revealed) return merge(new ArrayList<ImageIcon>(Arrays.asList(exploded, mine)));
-        else return merge(new ArrayList<ImageIcon>(Arrays.asList(unrevealed, mine)));
+        else return merge(new ArrayList<ImageIcon>(Arrays.asList(validated, mine)));
     }
 
     public static ImageIcon getFlag() {

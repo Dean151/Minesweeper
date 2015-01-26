@@ -184,7 +184,8 @@ public class GUI extends JFrame {
                     else jSquares[x][y].setIcon(Sprite.getFlag(square.isMine()));
                 }
                 else if (square.isMine() && (square.isRevealed() || board.isGameOver())) {
-                    jSquares[x][y].setIcon(Sprite.getMine(square.isRevealed()));
+                    if (!board.isGameOver()) jSquares[x][y].setIcon(Sprite.getMine());
+                    else jSquares[x][y].setIcon(Sprite.getMine(square.isRevealed()));
                 }
                 else if (square.isRevealed()) {
                     if (square.getNbMinesAround() > 0) jSquares[x][y].setIcon(Sprite.getNumber(square.getNbMinesAround()));
