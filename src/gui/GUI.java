@@ -1,6 +1,7 @@
 package gui;
 
 import core.Board;
+import core.Main;
 import core.Square;
 import sun.jvm.hotspot.asm.sparc.SPARCArgument;
 
@@ -27,6 +28,11 @@ public class GUI extends JFrame {
     private JMenu jMenuGame;
     private JMenuItem jGameNew;
     private JMenuItem jGameQuit;
+    // Difficulty Menu
+    private JMenu jMenuDifficulty;
+    private JMenuItem jDifficultyEasy;
+    private JMenuItem jDifficultyMedium;
+    private JMenuItem jDifficultyHard;
 
     // Board
     private JPanel jBoard;
@@ -79,17 +85,18 @@ public class GUI extends JFrame {
 
         // new game
         jGameNew = new JMenuItem("New game");
-        jGameNew.setAccelerator(KeyStroke.getKeyStroke("Control N"));
+        jGameNew.setAccelerator(KeyStroke.getKeyStroke("control N"));
         jGameNew.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO open new game
+                Main.newGame(boardWidth, boardHeight, board.getNbMines());
+                dispose();
             }
         });
 
         // quit
         jGameQuit = new JMenuItem("Quit");
-        jGameQuit.setAccelerator(KeyStroke.getKeyStroke("Control Q"));
+        jGameQuit.setAccelerator(KeyStroke.getKeyStroke("control Q"));
         jGameQuit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -97,9 +104,47 @@ public class GUI extends JFrame {
             }
         });
 
+        // DIFFICULTY MENU
+        jMenuDifficulty = new JMenu("Difficulty");
+
+        // Easy
+        jDifficultyEasy = new JMenuItem("Easy");
+        jDifficultyEasy.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.newGame(8, 8, 10);
+                dispose();
+            }
+        });
+
+        // Medium
+        jDifficultyMedium = new JMenuItem("Medium");
+        jDifficultyMedium.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.newGame(16, 16, 40);
+                dispose();
+            }
+        });
+
+        // Hard
+        jDifficultyHard = new JMenuItem("Hard");
+        jDifficultyHard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.newGame(30, 16, 99);
+                dispose();
+            }
+        });
+
         jMenuGame.add(jGameNew);
         jMenuGame.add(jGameQuit);
         jMenuBar.add(jMenuGame);
+
+        jMenuDifficulty.add(jDifficultyEasy);
+        jMenuDifficulty.add(jDifficultyMedium);
+        jMenuDifficulty.add(jDifficultyHard);
+        jMenuBar.add(jMenuDifficulty);
 
         setJMenuBar(jMenuBar);
     }

@@ -7,4 +7,9 @@ public class Main {
         Board board = new Board(8, 8, 10);
         GUI gui = new GUI(board);
     }
+
+    public static void newGame(int width, int height, int mines) {
+        Board board = new Board(width, height, mines);
+        GUI gui = new GUI(board);
+    }
 }
