@@ -12,6 +12,8 @@ public class Play implements MouseListener {
     private final int x;
     private final int y;
 
+    private boolean cancelled = false;
+
     public Play(GUI gui, int x, int y) {
         this.gui = gui;
         this.board = gui.getBoard();
@@ -21,24 +23,33 @@ public class Play implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (SwingUtilities.isLeftMouseButton(e)) {
-            board.play(x, y);
-        } else if (SwingUtilities.isRightMouseButton(e)) {
-            board.mark(x, y);
-        }
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (!cancelled) {
+            if (SwingUtilities.isLeftMouseButton(e)) {
+                board.play(x, y);
+            } else if (SwingUtilities.isRightMouseButton(e)) {
+                board.mark(x, y);
+            }
+        }
         gui.updateBoard();
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {
+        gui.updateBoard();
+    }
 
     @Override
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {
+        cancelled = false;
+    }
 
     @Override
-    public void mouseExited(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {
+        cancelled = true;
+    }
 }
