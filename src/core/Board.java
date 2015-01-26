@@ -150,20 +150,32 @@ public class Board {
             if (!mineInitialised) {
                 initMines(square);
             }
-
-            if (!square.isRevealed() && !square.isMarked() && !hasLost) { // Marked square are protected
-                square.setRevealed();
-                if (square.isMine()) {
-                    hasLost = true;
-                }
-                else if (square.getNbMinesAround() == 0) {
-                    // If it is 0, we expend
+            if (!square.isMarked() && !hasLost) { // Marked square are protected
+                if (!square.isRevealed()) {
+                    square.setRevealed();
+                    if (square.isMine()) {
+                        hasLost = true;
+                    } else if (square.getNbMinesAround() == 0) {
+                        // If it is 0, we expend
+                        ArrayList<Square> neighbors = getNeighbors(square);
+                        for (Square neighbor : neighbors) {
+                            play(neighbor);
+                        }
+                    }
+                    return true;
+                } else {
+                    // reveal neighbors if nb_marked around == nb_mines_around
                     ArrayList<Square> neighbors = getNeighbors(square);
-                    for (Square neighbor : neighbors) {
-                        play(neighbor);
+                    int nbMarked = 0;
+                    for (Square n : neighbors) {
+                        if (n.isMarked()) nbMarked++;
+                    }
+                    if (nbMarked == square.getNbMinesAround()) {
+                        for (Square n : neighbors) {
+                            if (!n.isRevealed() && !n.isMarked()) play(n);
+                        }
                     }
                 }
-                return true;
             }
         }
 
@@ -177,9 +189,29 @@ public class Board {
      */
     public void mark(int x, int y) {
         Square square = getSquare(x, y);
+        mark(square);
+    }
+
+    /**
+     * Allow to mark the given square
+     * @param square square we want to mark
+     */
+    public void mark(Square square) {
         if (square != null) {
             if (!square.isRevealed()) {
                 square.setMarked();
+            } else {
+                // mark all neighbors if nb_neighbors unrevealed == nb_mines around
+                ArrayList<Square> neighbors = getNeighbors(square);
+                int nbUnrevealed = 0;
+                for (Square n : neighbors) {
+                    if (!n.isRevealed()) nbUnrevealed++;
+                }
+                if (nbUnrevealed == square.getNbMinesAround()) {
+                    for (Square n : neighbors) {
+                        if (!n.isRevealed() && !n.isMarked()) n.setMarked();
+                    }
+                }
             }
         }
     }
