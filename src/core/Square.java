@@ -110,9 +110,11 @@ public class Square {
 
     /**
      * Call this function to mark or unmark a square
+     * @return true is square is marked, false if unmarked
      */
-    public void setMarked() {
+    public boolean setMarked() {
         isMarked = !isMarked;
+        return isMarked;
     }
 
     /**

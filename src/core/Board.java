@@ -8,6 +8,9 @@ public class Board {
     private final int WIDTH;
     private final int NB_MINES;
 
+    private int nbSquareRevealed = 0;
+    private int nbSquareMarked = 0;
+
     private boolean mineInitialised = false; // Marker to know if mines have been initialised yet
     private boolean gameOver = false;
 
@@ -129,6 +132,10 @@ public class Board {
         return neighbors;
     }
 
+    public boolean isGameWon() {
+        return nbSquareRevealed + NB_MINES == HEIGHT*WIDTH;
+    }
+
     /**
      * Allow to play at the [x,y] coordinates
      * @param x x coord
@@ -153,6 +160,8 @@ public class Board {
             if (!square.isMarked() && !gameOver) { // Marked square are protected
                 if (!square.isRevealed()) {
                     square.setRevealed();
+                    nbSquareRevealed++;
+
                     if (square.isMine()) {
                         gameOver = true;
                     } else if (square.getNbMinesAround() == 0) {
@@ -177,6 +186,12 @@ public class Board {
                     }
                 }
             }
+
+            // Win condition
+            if (isGameWon()) {
+                gameOver = true;
+                return true;
+            }
         }
 
         return false;
@@ -199,7 +214,8 @@ public class Board {
     public void mark(Square square) {
         if (square != null) {
             if (!square.isRevealed()) {
-                square.setMarked();
+                if (square.setMarked()) nbSquareMarked++;
+                else nbSquareMarked--;
             } else {
                 // mark all neighbors if nb_neighbors unrevealed == nb_mines around
                 ArrayList<Square> neighbors = getNeighbors(square);
@@ -209,7 +225,7 @@ public class Board {
                 }
                 if (nbUnrevealed == square.getNbMinesAround()) {
                     for (Square n : neighbors) {
-                        if (!n.isRevealed() && !n.isMarked()) n.setMarked();
+                        if (!n.isRevealed() && !n.isMarked()) mark(n);
                     }
                 }
             }
