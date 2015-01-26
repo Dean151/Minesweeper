@@ -180,10 +180,10 @@ public class GUI extends JFrame {
                 Square square = board.getSquare(x, y);
 
                 if (square.isMarked()) {
-                    if (!board.hasLost()) jSquares[x][y].setIcon(Sprite.getFlag());
+                    if (!board.isGameOver()) jSquares[x][y].setIcon(Sprite.getFlag());
                     else jSquares[x][y].setIcon(Sprite.getFlag(square.isMine()));
                 }
-                else if (square.isMine() && (square.isRevealed() || board.hasLost())) {
+                else if (square.isMine() && (square.isRevealed() || board.isGameOver())) {
                     jSquares[x][y].setIcon(Sprite.getMine(square.isRevealed()));
                 }
                 else if (square.isRevealed()) {
