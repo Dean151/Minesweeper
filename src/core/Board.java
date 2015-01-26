@@ -47,12 +47,18 @@ public class Board {
     }
 
     /**
+     * NB_MINES getter
+     * @return the number of mines
+     */
+    public int getNbMines() { return NB_MINES; }
+
+    /**
      * Initialize board with mines.
      */
-    private void initMines(int x, int y) {
+    private void initMines(Square play) {
         ArrayList<Square> possibilities = new ArrayList<Square>();
         for (Square square : board) {
-            if (square.getX() != x || square.getY() != y) { // Prevent placing a mine at [x,y]
+            if (!square.equals(play)) { // Prevent placing a mine at [x,y]
                 possibilities.add(square); // Every square is a potential mine
             }
         }
@@ -74,7 +80,7 @@ public class Board {
      * @return true if coordinates are inside the board, false otherwise
      */
     public boolean isInBoard(int x, int y) {
-        return (x >= 0 && y >= 0 && x < WIDTH && y < WIDTH);
+        return (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT);
     }
 
     public boolean hasLost() {
@@ -142,7 +148,7 @@ public class Board {
     public boolean play(Square square) {
         if (square != null) {
             if (!mineInitialised) {
-                initMines(square.getX(), square.getY());
+                initMines(square);
             }
 
             if (!square.isRevealed() && !square.isMarked() && !hasLost) { // Marked square are protected
@@ -172,7 +178,9 @@ public class Board {
     public void mark(int x, int y) {
         Square square = getSquare(x, y);
         if (square != null) {
-            square.setMarked();
+            if (!square.isRevealed()) {
+                square.setMarked();
+            }
         }
     }
 

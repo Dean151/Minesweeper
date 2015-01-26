@@ -121,4 +121,14 @@ public class Square {
     public void addMineAround() {
         nbMinesAround++;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Square) {
+            Square sc = (Square) obj;
+            return x == sc.x && y == sc.y;
+        }
+
+        return false;
+    }
 }
