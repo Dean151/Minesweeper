@@ -10,72 +10,58 @@ public class Sprite {
     public static final int SQUARE_SIZE = GUI.SQUARE_SIZE;
 
     public static final ImageIcon unrevealed = new ImageIcon(new ImageIcon("sprites/unrevealed.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
-    public static final ImageIcon revealed = new ImageIcon(new ImageIcon("sprites/revealed.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
 
-    public static final ImageIcon exploded = new ImageIcon(new ImageIcon("sprites/exploded.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
-    public static final ImageIcon validated = new ImageIcon(new ImageIcon("sprites/validated.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
+    private final ImageIcon revealed = new ImageIcon(new ImageIcon("sprites/revealed.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
+    private final ImageIcon exploded = new ImageIcon(new ImageIcon("sprites/exploded.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
+    private final ImageIcon validated = new ImageIcon(new ImageIcon("sprites/validated.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
 
-    private static final ImageIcon mine = new ImageIcon(new ImageIcon("sprites/mine.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
-    private static final ImageIcon flag = new ImageIcon(new ImageIcon("sprites/flag.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
+    private final ImageIcon mine = new ImageIcon(new ImageIcon("sprites/mine.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
+    private final ImageIcon flag = new ImageIcon(new ImageIcon("sprites/flag.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
 
-    private static final ImageIcon nb1 = new ImageIcon(new ImageIcon("sprites/1.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
-    private static final ImageIcon nb2 = new ImageIcon(new ImageIcon("sprites/2.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
-    private static final ImageIcon nb3 = new ImageIcon(new ImageIcon("sprites/3.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
-    private static final ImageIcon nb4 = new ImageIcon(new ImageIcon("sprites/4.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
-    private static final ImageIcon nb5 = new ImageIcon(new ImageIcon("sprites/5.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
-    private static final ImageIcon nb6 = new ImageIcon(new ImageIcon("sprites/6.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
-    private static final ImageIcon nb7 = new ImageIcon(new ImageIcon("sprites/7.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
-    private static final ImageIcon nb8 = new ImageIcon(new ImageIcon("sprites/8.png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH));
+    private ImageIcon[] numbers = new ImageIcon[9];
+    private ImageIcon[] mines = new ImageIcon[3];
+    private ImageIcon[] flags = new ImageIcon[3];
 
-    public static ImageIcon getMine() {
-        return merge(new ArrayList<ImageIcon>(Arrays.asList(unrevealed, mine)));
-    }
+    public Sprite() {
+        // Creating all the sprites once for all
 
-    public static ImageIcon getMine(boolean revealed) {
-        if (revealed) return merge(new ArrayList<ImageIcon>(Arrays.asList(exploded, mine)));
-        else return merge(new ArrayList<ImageIcon>(Arrays.asList(validated, mine)));
-    }
-
-    public static ImageIcon getFlag() {
-        return merge(new ArrayList<ImageIcon>(Arrays.asList(unrevealed, flag)));
-    }
-
-    public static ImageIcon getFlag(boolean wasMine) {
-        if (wasMine) return merge(new ArrayList<ImageIcon>(Arrays.asList(validated, flag)));
-        else return merge(new ArrayList<ImageIcon>(Arrays.asList(exploded, flag)));
-    }
-
-    public static ImageIcon getNumber(int number) {
-        ImageIcon nb = null;
-        switch (number) {
-            case 1:
-                nb = nb1;
-                break;
-            case 2:
-                nb = nb2;
-                break;
-            case 3:
-                nb = nb3;
-                break;
-            case 4:
-                nb = nb4;
-                break;
-            case 5:
-                nb = nb5;
-                break;
-            case 6:
-                nb = nb6;
-                break;
-            case 7:
-                nb = nb7;
-                break;
-            case 8:
-                nb = nb8;
-                break;
+        numbers[0] = revealed;
+        for (int i = 1; i < numbers.length; i++) {
+            numbers[i] = merge(new ArrayList<ImageIcon>(Arrays.asList(revealed, new ImageIcon(new ImageIcon("sprites/"+String.valueOf(i)+".png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH)))));
         }
-        if (nb instanceof ImageIcon) return merge(new ArrayList<ImageIcon>(Arrays.asList(revealed, nb)));
-        else return null;
+
+        ImageIcon[] backgrounds = {unrevealed, validated, exploded};
+
+        for (int i = 0; i < backgrounds.length; i++) {
+            ImageIcon back = backgrounds[i];
+            mines[i] = merge(new ArrayList<ImageIcon>(Arrays.asList(back, mine)));
+            flags[i] = merge(new ArrayList<ImageIcon>(Arrays.asList(back, flag)));
+        }
     }
+
+    public ImageIcon getNumber(int number) {
+        return numbers[number];
+    }
+
+    public ImageIcon getMine() {
+        return mines[0];
+    }
+
+    public ImageIcon getMine(boolean revealed) {
+        if (revealed) return mines[2]; // Red feedback
+        else return getMine();
+    }
+
+    public ImageIcon getFlag() {
+        return flags[0];
+    }
+
+    public ImageIcon getFlag(boolean wasMine) {
+        if (wasMine) return flags[1]; // Green feedback
+        else return flags[2]; // Red feedback
+    }
+
+
 
     /**
      * Merge the images listed in ArrayList, all with a 1.0 alpha transparency

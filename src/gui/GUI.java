@@ -19,6 +19,8 @@ public class GUI extends JFrame {
     public static final int SQUARE_SIZE = 30;
     private static final int MENU_SIZE = 42;
 
+    private Sprite sprites = new Sprite();
+
     private int height;
     private int width;
 
@@ -163,18 +165,17 @@ public class GUI extends JFrame {
                 Square square = board.getSquare(x, y);
 
                 if (square.isMarked()) {
-                    if (!board.isGameOver()) jSquares[x][y].setIcon(Sprite.getFlag());
-                    else jSquares[x][y].setIcon(Sprite.getFlag(square.isMine()));
+                    if (!board.isGameOver()) jSquares[x][y].setIcon(sprites.getFlag());
+                    else jSquares[x][y].setIcon(sprites.getFlag(square.isMine()));
                 }
                 else if (square.isMine() && (square.isRevealed() || board.isGameOver())) {
                     if (board.isGameOver() && (square.isRevealed() || square.isMarked())) {
-                        jSquares[x][y].setIcon(Sprite.getMine(square.isRevealed()));
+                        jSquares[x][y].setIcon(sprites.getMine(square.isRevealed()));
                     }
-                    else jSquares[x][y].setIcon(Sprite.getMine());
+                    else jSquares[x][y].setIcon(sprites.getMine());
                 }
                 else if (square.isRevealed()) {
-                    if (square.getNbMinesAround() > 0) jSquares[x][y].setIcon(Sprite.getNumber(square.getNbMinesAround()));
-                    else jSquares[x][y].setIcon(Sprite.revealed);
+                    jSquares[x][y].setIcon(sprites.getNumber(square.getNbMinesAround()));
                 }
                 else {
                     jSquares[x][y].setIcon(Sprite.unrevealed);
