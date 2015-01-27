@@ -65,7 +65,7 @@ public class Board {
 
         for (int i = 0; i < NB_MINES; i++) {
             int index = getRandomNumber(0, possibilities.size() - 1); // We get a random in the possibilities
-            Square mine = board.get(index); // We get the corresponding square
+            Square mine = possibilities.get(index); // We get the corresponding square
             mine.setMine(); // We set it as a mine
             possibilities.remove(index); // Then this square is out of the possibilities for next mine assignment
         }
