@@ -23,7 +23,7 @@ public class Play implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        gui.updateBoard();
     }
 
     @Override

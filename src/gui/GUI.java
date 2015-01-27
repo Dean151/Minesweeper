@@ -1,9 +1,7 @@
 package gui;
 
 import core.Board;
-import core.Main;
 import core.Square;
-import sun.jvm.hotspot.asm.sparc.SPARCArgument;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI extends JFrame {
+
+    public static void main(String[] args) {
+        // Launching new game
+        NewGame ng = new NewGame(null, 8, 8, 10);
+        ng.actionPerformed(null);
+    }
+
     public static final int SQUARE_SIZE = 30;
     private static final int MENU_SIZE = 42;
 
@@ -55,6 +60,8 @@ public class GUI extends JFrame {
         pack();
     }
 
+
+
     /**
      * Board getter
      * @return board
@@ -86,13 +93,7 @@ public class GUI extends JFrame {
         // new game
         jGameNew = new JMenuItem("New game");
         jGameNew.setAccelerator(KeyStroke.getKeyStroke("control N"));
-        jGameNew.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Main.newGame(boardWidth, boardHeight, board.getNbMines());
-                dispose();
-            }
-        });
+        jGameNew.addActionListener(new NewGame(this, boardWidth, boardHeight, board.getNbMines()));
 
         // quit
         jGameQuit = new JMenuItem("Quit");
@@ -109,33 +110,15 @@ public class GUI extends JFrame {
 
         // Easy
         jDifficultyEasy = new JMenuItem("Easy");
-        jDifficultyEasy.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Main.newGame(8, 8, 10);
-                dispose();
-            }
-        });
+        jDifficultyEasy.addActionListener(new NewGame(this, 8, 8, 10));
 
         // Medium
         jDifficultyMedium = new JMenuItem("Medium");
-        jDifficultyMedium.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Main.newGame(16, 16, 40);
-                dispose();
-            }
-        });
+        jDifficultyMedium.addActionListener(new NewGame(this, 16, 16, 40));
 
         // Hard
         jDifficultyHard = new JMenuItem("Hard");
-        jDifficultyHard.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Main.newGame(30, 16, 99);
-                dispose();
-            }
-        });
+        jDifficultyHard.addActionListener(new NewGame(this, 30, 16, 99));
 
         jMenuGame.add(jGameNew);
         jMenuGame.add(jGameQuit);
