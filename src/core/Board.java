@@ -8,8 +8,8 @@ public class Board {
     private final int WIDTH;
     private final int NB_MINES;
 
-    private boolean mineInitialised = false; // Marker to know if mines have been initialised yet
-    private boolean gameOver = false;
+    private boolean mineInitialised; // Marker to know if mines have been initialised yet
+    private boolean gameOver;
 
     private ArrayList<Square> board;
 
@@ -28,6 +28,8 @@ public class Board {
                 this.board.add(new Square(this, x, y));
             }
         }
+        gameOver = false;
+        mineInitialised = false;
     }
 
     /**
