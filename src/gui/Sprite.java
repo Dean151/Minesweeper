@@ -22,20 +22,28 @@ public class Sprite {
     private ImageIcon[] mines = new ImageIcon[3];
     private ImageIcon[] flags = new ImageIcon[3];
 
+    private ImageIcon[] counter = new ImageIcon[10];
+
     public Sprite() {
         // Creating all the sprites once for all
 
+        // Creating revealed numbers
         numbers[0] = revealed;
         for (int i = 1; i < numbers.length; i++) {
             numbers[i] = merge(new ArrayList<ImageIcon>(Arrays.asList(revealed, new ImageIcon(new ImageIcon("sprites/"+String.valueOf(i)+".png").getImage().getScaledInstance(SQUARE_SIZE,SQUARE_SIZE, Image.SCALE_SMOOTH)))));
         }
 
+        // Creating mines and flags icons
         ImageIcon[] backgrounds = {unrevealed, validated, exploded};
-
         for (int i = 0; i < backgrounds.length; i++) {
             ImageIcon back = backgrounds[i];
             mines[i] = merge(new ArrayList<ImageIcon>(Arrays.asList(back, mine)));
             flags[i] = merge(new ArrayList<ImageIcon>(Arrays.asList(back, flag)));
+        }
+
+        // Creating counter images
+        for (int i = 0; i < counter.length; i++) {
+            counter[i] = new ImageIcon("sprites/counter/"+String.valueOf(i)+".png");
         }
     }
 
@@ -61,7 +69,9 @@ public class Sprite {
         else return flags[2]; // Red feedback
     }
 
-
+    public ImageIcon getCounter(int number) {
+        return counter[number];
+    }
 
     /**
      * Merge the images listed in ArrayList, all with a 1.0 alpha transparency
